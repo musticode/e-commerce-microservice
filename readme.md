@@ -146,4 +146,4 @@ These microservices communicate with each other through APIs, events, or message
 
 ![img_1.png](img_1.png)
 
-![e commerce services.jpg](..%2F..%2F..%2FDownloads%2Fe%20commerce%20services.jpg)
+![e commerce services.jpg](e%20commerce%20services.jpg)

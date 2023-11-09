@@ -6,5 +6,4 @@ import com.example.paymentservice.model.Payment;
 public interface PaymentService {
     Payment findPayment(long paymentId);
 
-    Payment createPayment(PaymentDto payment);
 }

@@ -69,27 +69,6 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
 
-    @Override
-    public Payment createPayment(PaymentDto request) {
-        final Product product = productClient.findProductById(request.getProductId()).getBody();
-        final long productQuantity = product.getQuantity();
-
-        if (productQuantity <= 0){
-            throw new RuntimeException("No available products");
-        }
-
-        Payment payment = new Payment();
-        payment.setId(request.getProductId());
-
-        paymentRepository.save(payment);
-
-        log.info("Product : {}", product);
-        log.info("productQuantity : {}", product.getQuantity());
-        log.info("Payment : {}", payment);
-
-        return payment;
-    }
-
     private String getUserCreditCardDetails(final long userId){
         User user = userClient.findUserDetailsById(userId).getBody();
         return user.getCreditCardId();

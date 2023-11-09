@@ -14,21 +14,13 @@
         <module name="user-management" />
         <module name="productEs-catalog" />
         <module name="api-gateway" />
-        <module name="order-service" />
         <module name="order-management" />
         <module name="service-discovery" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="api-gateway" target="17" />
-      <module name="config-server" target="17" />
-      <module name="order-management" target="17" />
       <module name="order-service" target="17" />
-      <module name="payment-service" target="17" />
       <module name="product-catalog" target="17" />
-      <module name="service-discovery" target="17" />
-      <module name="shopping-cart" target="17" />
-      <module name="user-management" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

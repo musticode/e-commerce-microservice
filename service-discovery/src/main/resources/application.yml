@@ -1,0 +1,7 @@
+server:
+  port: 8761
+spring:
+  application:
+    name: SERVICE-DISCOVERY
+  config:
+    import: optional:configserver:http://localhost:8888

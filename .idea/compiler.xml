@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="config-server" />
+        <module name="product-catalog" />
+        <module name="shopping-cart" />
+        <module name="payment-service" />
+        <module name="user-management" />
+        <module name="productEs-catalog" />
+        <module name="api-gateway" />
+        <module name="order-service" />
+        <module name="order-management" />
+        <module name="service-discovery" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="api-gateway" target="17" />
+      <module name="config-server" target="17" />
+      <module name="order-management" target="17" />
+      <module name="order-service" target="17" />
+      <module name="payment-service" target="17" />
+      <module name="product-catalog" target="17" />
+      <module name="service-discovery" target="17" />
+      <module name="shopping-cart" target="17" />
+      <module name="user-management" target="17" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="api-gateway" options="-parameters" />
+      <module name="config-server" options="-parameters" />
+      <module name="order-management" options="-parameters" />
+      <module name="order-service" options="-parameters" />
+      <module name="payment-service" options="-parameters" />
+      <module name="product-catalog" options="-parameters" />
+      <module name="productEs-catalog" options="-parameters" />
+      <module name="service-discovery" options="-parameters" />
+      <module name="shopping-cart" options="-parameters" />
+      <module name="user-management" options="-parameters" />
+    </option>
+  </component>
+</project>

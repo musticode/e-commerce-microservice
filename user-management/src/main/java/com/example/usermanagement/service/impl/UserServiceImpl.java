@@ -63,4 +63,9 @@ public class UserServiceImpl implements UserService {
 
         return user.getCreditCardId();
     }
+
+    @Override
+    public User findUserDetails(long userId) {
+        return userRepository.findById(userId).orElseThrow(()-> new RuntimeException("User not found with id "));
+    }
 }

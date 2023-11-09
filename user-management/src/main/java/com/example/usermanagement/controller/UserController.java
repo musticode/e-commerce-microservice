@@ -3,6 +3,7 @@ package com.example.usermanagement.controller;
 import com.example.usermanagement.dto.product.ProductResponse;
 import com.example.usermanagement.dto.user.UserProductResponse;
 import com.example.usermanagement.dto.user.UserResponse;
+import com.example.usermanagement.model.User;
 import com.example.usermanagement.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -38,6 +39,11 @@ public class UserController {
     @GetMapping("/credit-card/{userId}")
     public ResponseEntity<String> findUserCreditCard(@PathVariable long userId){
         return new ResponseEntity<>(userService.findCreditCardDetail(userId), HttpStatus.OK);
+    }
+
+    @GetMapping("/details/{userId}")
+    public ResponseEntity<User> findUserDetailsById(@PathVariable long userId){
+        return new ResponseEntity<>(userService.findUserDetails(userId), HttpStatus.OK);
     }
 
 //

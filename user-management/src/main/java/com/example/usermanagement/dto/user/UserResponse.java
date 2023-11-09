@@ -16,4 +16,6 @@ public class UserResponse {
     private String email;
     private String mobile;
     private boolean isActive;
+    private String creditCardId;
+
 }

@@ -94,21 +94,43 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto updateOrder(long orderId, OrderDto orderDto) {
+        double totalPrice = calculateTotalPrice(orderDto.getOrderLineItems());
+        if (totalPrice < 0){
+            totalPrice = 0;
+        }
+
+        Order foundedOrder = findOrderById(orderId);
+        foundedOrder.setName(orderDto.getName());
+        foundedOrder.setCartId(orderDto.getCartId());
+        foundedOrder.setTotalPrice(totalPrice);
+        foundedOrder.setBuyerId(orderDto.getBuyerId());
+        foundedOrder.setSellerId(orderDto.getSellerId());
+        orderRepository.save(foundedOrder);
+
+        return modelMapper.map(foundedOrder, OrderDto.class);
+    }
+
+    @Override
+    public List<Order> getUserOrderHistory(long userId) {
+        return orderRepository.findOrdersByBuyerId(userId);
+    }
+
+    @Override
+    public Order confirmOrder(Order order) {
+
+        // todo : create order / get created order
+        // todo : send order to payment topic
+
+
         return null;
     }
 
-    /**
-     * Order : consume
-     *
-     * @KafkaListener( topics = "${spring.kafka.topic.name}",
-     * groupId = "${spring.kafka.consumer.group-id}"
-     * )
-     * public void consume(OrderEvent orderEvent){
-     * System.out.println(orderEvent.getOrder().getOrderId());
-     * System.out.println(orderEvent.getOrder().getName());
-     * System.out.println(orderEvent.getOrder().getQty());
-     * }
-     */
+    @Override
+    public void cancelOrderById(long orderId) {
+        Order order = findOrderById(orderId);
+        orderRepository.delete(order);
+        log.info("Order deleted : {}", order);
+    }
 
 
     private double calculateTotalPrice(List<OrderLineItem> orderLineItemList) {
@@ -146,7 +168,6 @@ public class OrderServiceImpl implements OrderService {
 
         return sum;
         // return sumOfPrice;
-
     }
 
 }

@@ -1,10 +1,12 @@
 package com.example.ordermanagement.dto;
 
+import com.example.ordermanagement.model.Order;
 import com.example.ordermanagement.model.OrderLineItem;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.modelmapper.ModelMapper;
 
 import java.util.List;
 

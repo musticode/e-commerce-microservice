@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(OrderConstant.ORDER_ENDPOINT)
@@ -33,6 +35,11 @@ public class OrderController {
     @PostMapping("/update-order-status/{orderId}")
     public ResponseEntity<OrderDto> updateOrderStatus(@RequestBody OrderDto orderDto, @PathVariable long orderId){
         return new ResponseEntity<>(orderService.updateOrder(orderId, orderDto), HttpStatus.OK);
+    }
+
+    @GetMapping("/order-history/{userId}")
+    public ResponseEntity<List<Order>> getUserOrderHistory(@PathVariable long userId){
+        return new ResponseEntity<>(orderService.getUserOrderHistory(userId), HttpStatus.OK);
     }
 
 }

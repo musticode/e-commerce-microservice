@@ -60,11 +60,8 @@ public class OrderServiceImpl implements OrderService {
         newOrder.setSellerId(order.getSellerId());
         newOrder.setBuyerId(order.getBuyerId());
 
-
-
         orderRepository.save(newOrder);
         log.info("Order : {}", newOrder);
-
 
         OrderEvent orderEvent = OrderEvent
                 .builder()
@@ -79,15 +76,12 @@ public class OrderServiceImpl implements OrderService {
         return modelMapper.map(newOrder, OrderDto.class);
     }
 
-
-
-
     @Override
     public OrderDto cancelOrder(long orderId) {
-
         Order order = findOrderById(orderId);
         order.setCancelledAt(new Date());
         orderRepository.save(order);
+        log.info("Order is cancelled: {}", order);
 
         return modelMapper.map(order, OrderDto.class);
     }
@@ -151,12 +145,8 @@ public class OrderServiceImpl implements OrderService {
             sumOfPrice += productClient.findProductById(item.getProductId()).getBody().getPrice();
         }
 
-
-
-
         // way 2
         List<Double> priceList = new ArrayList<>();
-
         for (OrderLineItem item : orderLineItemList) {
             priceList.add(productClient.findProductById(item.getProductId()).getBody().getPrice());
         }

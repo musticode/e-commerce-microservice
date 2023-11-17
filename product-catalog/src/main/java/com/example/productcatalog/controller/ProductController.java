@@ -22,28 +22,25 @@ public class ProductController {
 
     private final ProductService productService;
 
-//    @GetMapping(PRODUCT_ID)
-//    public ResponseEntity<ProductResponse> findProductWithId(@PathVariable long productId){
-//        ProductResponse productResponse = productService.findProductById(productId);
-//        return new ResponseEntity<>(productResponse, HttpStatus.OK);
-//    }
-
     @GetMapping(PRODUCT_ID)
     public ResponseEntity<Product> findProductById(@PathVariable long productId){
         Product product = productService.findProductWithId(productId);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
-
     @GetMapping("/quantity/{productId}")
     public ResponseEntity<Long> findProductQuantityById(@PathVariable long productId){
         return new ResponseEntity<>(productService.findQuantity(productId), HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<List<ProductResponse>> findAllProducts(){
-        List<ProductResponse> products = productService.findProducts();
-        return new ResponseEntity<>(products, HttpStatus.OK);
+    @GetMapping("/all/{categoryId}")
+    public ResponseEntity<List<Product>> findProductsByCategoryId(@PathVariable long categoryId){
+        return new ResponseEntity<>(productService.findProductsByCategory(categoryId), HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Product>> findAllProducts(){
+        return new ResponseEntity<>(productService.findAllProducts(), HttpStatus.OK);
     }
 
     @PostMapping
@@ -51,10 +48,6 @@ public class ProductController {
         Product addedProduct = productService.saveProduct(productRequest);
         return new ResponseEntity<>(addedProduct, HttpStatus.CREATED);
     }
-
-
-
-
 
 }
 

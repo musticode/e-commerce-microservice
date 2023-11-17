@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static com.example.shoppingcart.constant.CartConstant.CART_ENDPOINT;
 import static com.example.shoppingcart.constant.CartConstant.CART_ID;
 
@@ -30,6 +32,12 @@ public class CartController {
         Cart cart = cartService.findCartWithId(cartId);
         return new ResponseEntity<>(cart, HttpStatus.OK);
     }
+
+    @GetMapping
+    public ResponseEntity<List<Cart>> findAllCarts(){
+        return new ResponseEntity<>(cartService.getAllCarts(), HttpStatus.OK);
+    }
+
 
     @DeleteMapping(CART_ID)
     public ResponseEntity<String> deleteCart(@PathVariable long cartId){

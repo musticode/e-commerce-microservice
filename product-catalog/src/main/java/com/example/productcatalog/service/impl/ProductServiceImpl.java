@@ -15,7 +15,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -29,22 +28,20 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse findProductById(long productId) {
-
-
         Product foundProduct = productRepository
                 .findById(productId)
                 .orElseThrow(()->
                         new ProductNotFoundException("Product not found with " + productId)
                 );
 
-        return mapToProductResponse(foundProduct);
+        return modelMapper.map(foundProduct, ProductResponse.class);
     }
+
 
     @Override
     public Product saveProduct(ProductRequest productRequest) {
 
-        Category category = categoryService
-                .findCategoryById(productRequest.getCategoryId());
+        Category category = categoryService.findCategoryById(productRequest.getCategoryId());
 
         Product product = Product.builder()
                 .name(productRequest.getName())
@@ -74,13 +71,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductResponse> findProducts() {
-        return productRepository
-                .findAll()
-                .stream()
-                .map(this::mapToProductResponse)
-                .collect(Collectors.toList());
+    public List<Product> findAllProducts() {
+        return productRepository.findAll();
     }
+
+    @Override
+    public List<Product> findProductsByCategory(long categoryId){
+        Category category = categoryService.findCategoryById(categoryId);
+        return productRepository.findByCategory(category);
+    }
+
 
     @Override
     public Product findProductWithId(long productId) {
@@ -98,6 +98,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     private ProductResponse mapToProductResponse(Product product){
+        log.info("product : {}",product);
         return modelMapper.map(product, ProductResponse.class);
     }
 

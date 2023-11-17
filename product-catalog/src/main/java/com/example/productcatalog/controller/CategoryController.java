@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static com.example.productcatalog.constant.CategoryConstant.CATEGORY_ENDPOINT;
 import static com.example.productcatalog.constant.CategoryConstant.CATEGORY_ID;
 import static com.example.productcatalog.constant.ProductConstant.PRODUCT_ENDPOINT;
@@ -32,6 +34,10 @@ public class CategoryController {
         return new ResponseEntity<>(categoryResponse, HttpStatus.CREATED);
     }
 
+    @GetMapping
+    public ResponseEntity<List<Category>> findAllCategories(){
+        return new ResponseEntity<>(categoryService.findCategories(), HttpStatus.OK);
+    }
 
 
 

@@ -11,9 +11,10 @@ public interface ProductService {
 
     Product saveProduct(ProductRequest productRequest);
 
-    List<ProductResponse> findProducts();
+    List<Product> findAllProducts();
 
     Product findProductWithId(long productId);
 
     Long findQuantity(long productId);
+    List<Product> findProductsByCategory(long categoryId);
 }

@@ -34,6 +34,11 @@ public class PaymentServiceImpl implements PaymentService {
         return paymentRepository.findById(paymentId).orElseThrow(() -> new RuntimeException("No payment with id " + paymentId));
     }
 
+    @Override
+    public List<Payment> getAllPayments() {
+        return paymentRepository.findAll();
+    }
+
 
     @KafkaListener(
             topics = "order_topic",

@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -53,6 +55,11 @@ public class CategoryServiceImpl implements CategoryService {
                 );
         return category;
     }
+    @Override
+    public List<Category> findCategories() {
+        return categoryRepository.findAll();
+    }
+
 
     private CategoryResponse mapCategoryToResponse(Category category){
         return modelMapper.map(category, CategoryResponse.class);

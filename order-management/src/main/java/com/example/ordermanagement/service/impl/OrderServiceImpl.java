@@ -49,6 +49,8 @@ public class OrderServiceImpl implements OrderService {
 
         final double price = calculateTotalPrice(order.getOrderLineItems());
 
+        Cart cart = cartClient.findCartById(order.getCartId()).getBody();
+
         Order newOrder = new Order();
         newOrder.setName(order.getName());
         //newOrder.setCartId(order.getCartId());

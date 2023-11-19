@@ -155,3 +155,4 @@ These microservices communicate with each other through APIs, events, or message
 https://www.google.com/search?q=notification+service&sca_esv=581999558&sxsrf=AM9HkKmAvgB0j2XILIB_vSVRqr_PsRhpFQ:1699906639202&tbm=isch&source=iu&ictx=1&vet=1&fir=bPhO3EN6rEDMHM%252CH8_ewfIW3wjtEM%252C%252Fm%252F0h97k3c%253BwDWEElkR2FDEZM%252CpC1WeCoWjl5XHM%252C_%253BF5ZOC1QSVmRa6M%252Cl8mez312z6e61M%252C_%253Brn3_FngW22jzFM%252CHrO3FAjaDIms9M%252C_%253BvtUHAzwG3E5YnM%252CKb_4PN8rhlqJ8M%252C_&usg=AI4_-kR6hI4BgMXrsTdfx2LuQefkbk9zGg&sa=X&ved=2ahUKEwjT3YXb5cGCAxUzVfEDHQ7HCgQQ_B16BAhGEAE#imgrc=uuqAs0wCP4VI3M
 Detailed:
 [Detailed](https://www.linkedin.com/pulse/design-notification-system-omar-ismail)
+![img_3.png](img_3.png)

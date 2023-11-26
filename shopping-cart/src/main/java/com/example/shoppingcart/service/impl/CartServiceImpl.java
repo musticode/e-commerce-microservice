@@ -2,10 +2,11 @@ package com.example.shoppingcart.service.impl;
 
 import com.example.shoppingcart.converter.cart.CartConverter;
 import com.example.shoppingcart.converter.cart.CartItemConverter;
-import com.example.shoppingcart.dto.CartDto;
-import com.example.shoppingcart.dto.CartItemDto;
-import com.example.shoppingcart.dto.CartRequest;
+import com.example.shoppingcart.dto.*;
 import com.example.shoppingcart.exception.CartNotFoundException;
+import com.example.shoppingcart.external.ProductClient;
+import com.example.shoppingcart.external.UserClient;
+import com.example.shoppingcart.external.model.User;
 import com.example.shoppingcart.model.es.CartEs;
 import com.example.shoppingcart.model.es.CartItemEs;
 import com.example.shoppingcart.model.postgre.Cart;
@@ -28,119 +29,154 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CartServiceImpl implements CartService {
 
-    private final ItemRepository itemRepository;
     private final ModelMapper modelMapper;
     private final CartRepository cartRepository;
-//    private final CartEsService cartEsService;
     private final CartItemService cartItemService;
+    private final UserClient userClient;
+    private final ProductClient productClient;
 
 
-    public Cart createCart(CartDto cartDto){
-        List<CartItem> cartItemList = convertCartItemDtoListToEntityList(cartDto.getItemList());
-        Cart cart = Cart.builder()
-                .name(cartDto.getName())
-                .userId(cartDto.getUserId())
-                //.itemList(cartItemList)
-                .itemCount(cartDto.getItemCount())
-                .isEmpty(cartDto.isEmpty())
-                .note(cartDto.getNote())
-                .totalPrice(cartDto.getTotalPrice())
-                .requiresShipping(cartDto.isRequiresShipping())
-                .totalDiscount(cartDto.getTotalDiscount())
+    @Override
+    public CartResponse addItemToCart(CartRequest cartRequest){
+
+        // find user
+        User foundUser = userClient.findUserDetailsById(cartRequest.getUserId()).getBody();
+        log.info("User {}", foundUser);
+
+        // find product
+        Product foundProduct = productClient.findProductById(cartRequest.getProductId()).getBody();
+        final long productQuantity = foundProduct.getQuantity();
+        log.info("Product{}", foundProduct);
+
+        List<CartItem> cartItemList = new ArrayList<>();
+
+
+        if (!cartRepository.existsByUserId(foundUser.getId())){
+
+            if (cartRequest.getQuantity() <= productQuantity){
+
+                // TODO create a new cart with founded userId
+                Cart cart = Cart.builder()
+                        .cartId(1234L)
+                        .name(String.valueOf(foundUser.getId()))
+                        .itemList(cartItemList)
+                        .itemCount(1)
+                        .isEmpty(false)
+                        .note("Added cart")
+                        .totalPrice(calculateTotalPrice(foundProduct.getPrice(), cartRequest.getQuantity()))
+                        .requiresShipping(false)
+                        .totalDiscount(0)
+                        .build();
+
+                cartRepository.save(cart);
+
+                // TODO add founded item to cartItemList
+                CartItem cartItem = CartItem.builder()
+                        .name(foundProduct.getName())
+                        .price(foundProduct.getPrice())
+                        .quantity(cartRequest.getQuantity())
+                        .subtotal(calculateTotalPrice(foundProduct.getPrice(), cartRequest.getQuantity()))
+                        .cart(cart)
+                        .build();
+
+                cartItemService.addItem(cartItem);
+
+                // TODO set cartItemList to created cart
+                cartItemList.add(cartItem);
+
+
+
+
+                // TODO return cart response
+                return CartResponse.builder()
+                        .cartId(cart.getCartId())
+                        .totalItems(cart.getTotalItems())
+                        .totalPrice(cart.getTotalPrice())
+                        .item(cart
+                                .getItemList()
+                                .stream()
+                                .map(item -> modelMapper.map(item, CartItemResponse.class ))
+                                .collect(Collectors.toList())
+                        )
+                        .build();
+
+            }
+
+        }else {
+            // todo find cart with userId--> user has one cart
+            Cart cart = cartRepository.findByUserId(foundUser.getId());
+
+            // todo add item to found cart
+            CartItem cartItem = CartItem.builder()
+                    .name(foundProduct.getName())
+                    .price(foundProduct.getPrice())
+                    .quantity(cartRequest.getQuantity())
+                    .subtotal(calculateTotalPrice(foundProduct.getPrice(), cartRequest.getQuantity()))
+                    .cart(cart)
+                    .build();
+
+            // todo update cart
+            List<CartItem> foundItemList = cart.getItemList();
+            foundItemList.add(cartItem);
+            cart.setItemList(foundItemList);
+
+            // todo return cart response
+            return CartResponse.builder()
+                    .cartId(cart.getCartId())
+                    .totalItems(cart.getTotalItems())
+                    .totalPrice(cart.getTotalPrice())
+                    .item(cart
+                            .getItemList()
+                            .stream()
+                            .map(item -> modelMapper.map(item, CartItemResponse.class ))
+                            .collect(Collectors.toList())
+                    )
+                    .build();
+
+
+        }
+
+        return null;
+    }
+
+    @Override
+    public CartResponse viewCart(long cartId) {
+        Cart foundCart = findCartWithCartId(cartId);
+        return modelMapper.map(foundCart, CartResponse.class);
+    }
+
+    @Override
+    public CartResponse updateCartItem(long cartId, CartRequest cartRequest) {
+
+        Product product = productClient.findProductById(cartRequest.getProductId()).getBody();
+
+        Cart foundCart = findCartWithCartId(cartId);
+        List<CartItem> itemList = foundCart.getItemList();
+
+        CartItem cartItem = CartItem.builder()
+                .name(product.getName())
+                .price(product.getPrice())
+                .quantity(cartRequest.getQuantity())
+                .subtotal(product.getPrice())
                 .build();
 
-        cartRepository.save(cart);
-        cart.setItemList(cartItemList);
-        cartRepository.save(cart);
-        return cart;
+        itemList.add(cartItem);
+
+        foundCart.setItemList(itemList);
+
+        cartRepository.save(foundCart);
+
+
+        return modelMapper.map(foundCart, CartResponse.class);
+    }
+
+    private Cart findCartWithCartId(long cartId){
+        return cartRepository.findById(cartId).orElseThrow(()-> new CartNotFoundException("No cart with id: " + cartId));
     }
 
 
-    @Override
-    public Cart findCartWithId(long cartId) {
-
-        if (cartId <= 0) {
-            throw new CartNotFoundException("No cart with id " + cartId);
-        }
-
-        Cart cart = cartRepository
-                .findById(cartId)
-                .orElseThrow(() -> new CartNotFoundException("No cart with " + cartId));
-
-
-
-        return cart;
+    public double calculateTotalPrice(double price, int quantity){
+        return price * quantity;
     }
-
-    @Override
-    public CartDto addItem(CartDto cartRequest) {
-
-        // map item to items
-        List<CartItem> cartItems = cartRequest
-                .getItemList()
-                .stream()
-                .map(item -> modelMapper.map(item, CartItem.class))
-                .collect(Collectors.toList());
-
-        List<Double> prices = new ArrayList<>();
-        cartItems.forEach(item -> prices.add(item.getPrice()));
-
-        final double totalPrice = totalPriceSum(prices);
-
-
-        Cart cart = CartConverter.convertCartToEntity(cartRequest);
-        Cart addedCart = cartRepository.save(cart);
-
-        addedCart.getItemList().forEach(cartItem -> cartItem.setCart(addedCart));
-
-
-
-
-    return modelMapper.map(addedCart, CartDto.class);
-//        cartEsService.saveCart(CartEs
-//                .builder()
-//                .name(cart.getName())
-//                .itemCount(cart.getItemCount())
-//                .isEmpty(cart.isEmpty())
-//                .note(cart.getNote())
-//                .totalPrice(totalPrice)
-//                .requiresShipping(cart.isRequiresShipping())
-//                .totalDiscount(cart.getTotalDiscount())
-//                .itemList(cart.getItemList().stream().map(item -> modelMapper.map(item, CartItemEs.class)).collect(Collectors.toList()))
-//                .build()
-//        );
-
-
-//        return CartConverter.convertCartToDto(cart);
-    }
-
-    @Override
-    public String deleteCartWithId(long cartId) {
-        Cart cart = findCartWithId(cartId);
-        cartRepository.delete(cart);
-        return "DELETED";
-    }
-
-    @Override
-    public List<Cart> getAllCarts() {
-        return cartRepository.findAll();
-    }
-
-    private double totalPriceSum(List<Double> priceList){
-        double sum = 0;
-        if (!priceList.isEmpty()){
-            for (Double price : priceList){
-                sum += price;
-            }
-        }
-        return sum;
-    }
-
-
-    private List<CartItem> convertCartItemDtoListToEntityList(List<CartItemDto> cartItemDtoList){
-        return cartItemDtoList.stream().map(cartItemDto -> modelMapper.map(cartItemDto, CartItem.class)).collect(Collectors.toList());
-    }
-
-
 
 }

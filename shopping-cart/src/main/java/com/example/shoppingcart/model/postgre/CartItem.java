@@ -19,24 +19,10 @@ public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private String name;
-
     private double price;
-
-    private double finalPrice;
-
-    private String message;
-
-    private long productId;
-
     private int quantity;
-
-    private String sku;
-
-    private String title;
-
-    private String vendor;
+    private double subtotal;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cart_id", referencedColumnName = "id")

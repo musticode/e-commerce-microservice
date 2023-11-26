@@ -25,6 +25,10 @@ public class Cart implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private long cartId;
+
+    private int totalItems;
+
     private String name;
 
     private long userId;
@@ -50,6 +54,5 @@ public class Cart implements Serializable {
 
     @ColumnDefault("0.0")
     private double totalDiscount;
-
 
 }

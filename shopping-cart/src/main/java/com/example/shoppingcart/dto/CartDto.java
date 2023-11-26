@@ -1,5 +1,6 @@
 package com.example.shoppingcart.dto;
 
+import com.example.shoppingcart.model.postgre.Cart;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

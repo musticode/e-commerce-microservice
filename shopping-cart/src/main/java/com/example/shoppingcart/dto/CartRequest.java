@@ -13,13 +13,16 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class CartRequest {
-    private String name;
     private long userId;
-    private List<CartItemRequest> itemList;
-    private int itemCount;
-    private boolean isEmpty;
-    private String note;
-    private double totalPrice;
-    private boolean requiresShipping;
-    private double totalDiscount;
+    private long productId;
+    private int quantity;
 }
+
+/**
+ * {
+ *   "userId": "123",
+ *   "productId": "ABC123",
+ *   "quantity": 2
+ * }
+ *
+ * */

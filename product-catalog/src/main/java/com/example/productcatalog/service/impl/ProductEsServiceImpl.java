@@ -89,4 +89,12 @@ public class ProductEsServiceImpl {
         return productEsRepository.findByManufacturerAndCategory(manufacturer, category);
     }
 
+    public ProductEs findProductWithId(String productId) {
+        return productEsRepository.findById(productId).orElseThrow(()-> new ProductNotFoundException("Product not found with "+ productId ));
+    }
+
+    public List<ProductEs> searchProductByCategoryName(String categoryName) {
+        return productEsRepository.findByCategory(categoryName);
+    }
+
 }

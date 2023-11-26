@@ -18,6 +18,6 @@ public class Configuration {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-
+    private long userId;
 
 }

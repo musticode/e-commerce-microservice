@@ -1,6 +1,6 @@
 package com.example.shoppingcart.controller;
 
-import com.example.shoppingcart.dto.CartDto;
+import com.example.shoppingcart.dto.*;
 import com.example.shoppingcart.model.postgre.Cart;
 import com.example.shoppingcart.service.impl.CartServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -27,28 +27,21 @@ public class CartController {
 
     private final CartServiceImpl cartService;
 
-    @GetMapping(CART_ID)
-    public ResponseEntity<Cart> findCartById(@PathVariable long cartId){
-        Cart cart = cartService.findCartWithId(cartId);
-        return new ResponseEntity<>(cart, HttpStatus.OK);
+    @GetMapping("/{cartId}")
+    public ResponseEntity<CartResponse> viewCart(@PathVariable long cartId){
+        return new ResponseEntity<>(cartService.viewCart(cartId), HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<List<Cart>> findAllCarts(){
-        return new ResponseEntity<>(cartService.getAllCarts(), HttpStatus.OK);
+    @PostMapping("/add")
+    public ResponseEntity<CartResponse> addOrCreateItemToUserCart(@RequestBody CartRequest cartRequest){
+        return new ResponseEntity<>(cartService.addItemToCart(cartRequest), HttpStatus.CREATED);
+
     }
 
-
-    @DeleteMapping(CART_ID)
-    public ResponseEntity<String> deleteCart(@PathVariable long cartId){
-        return new ResponseEntity<>(cartService.deleteCartWithId(cartId), HttpStatus.OK);
+    @PostMapping("/update-cart/{cartId}")
+    public ResponseEntity<CartResponse> updateCartWithId(@PathVariable long cartId, @RequestBody CartRequest cartRequest){
+        return new ResponseEntity<>(cartService.updateCartItem(cartId, cartRequest), HttpStatus.OK);
     }
-
-    @PostMapping("/add-item-to-cart")
-    public ResponseEntity<Cart> addItem(@RequestBody CartDto cart){
-        return new ResponseEntity<>(cartService.createCart(cart), HttpStatus.CREATED);
-    }
-
 
 
 

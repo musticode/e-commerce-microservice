@@ -156,3 +156,126 @@ https://www.google.com/search?q=notification+service&sca_esv=581999558&sxsrf=AM9
 Detailed:
 [Detailed](https://www.linkedin.com/pulse/design-notification-system-omar-ismail)
 ![img_3.png](img_3.png)
+
+
+### Cart Service
+
+**Explanation:**
+
+1. The user browses products and adds items to the shopping cart.
+2. The user can view the cart, update quantities, or remove items.
+3. When the user decides to check out, the shopping cart service interacts with the product catalog service to get the latest details of the products in the cart.
+4. The shopping cart service creates an order and initiates the checkout process.
+5. The user can view their order history.
+
+This flow diagram is a high-level representation, and in a real-world scenario, you'd have more details, error handling, and potentially asynchronous operations for better scalability. It's also important to consider security aspects, such as authentication and authorization, to ensure that only authorized users can modify their shopping carts and place orders.
+
+### Request and Response Models:
+
+1. **Request to Add Item to Cart:**
+``` 
+{
+  "userId": "123",
+  "productId": "ABC123",
+  "quantity": 2
+}
+```
+
+2. **Response from Add Item to Cart:**
+``` 
+{
+  "cartId": "456",
+  "totalItems": 3,
+  "totalPrice": 50.00,
+  "item": {
+    "productId": "ABC123",
+    "name": "Product Name",
+    "price": 25.00,
+    "quantity": 2,
+    "subtotal": 50.00
+  }
+}
+```
+
+3. **Request to Update Cart Item:**
+``` 
+{
+  "cartId": "456",
+  "productId": "ABC123",
+  "quantity": 3
+}
+```
+
+4. **Response from Update Cart Item:**
+``` 
+{
+  "cartId": "456",
+  "totalItems": 4,
+  "totalPrice": 75.00,
+  "item": {
+    "productId": "ABC123",
+    "name": "Product Name",
+    "price": 25.00,
+    "quantity": 3,
+    "subtotal": 75.00
+  }
+}
+```
+
+5.  **Request to Remove Item from Cart**:
+``` 
+{
+  "cartId": "456",
+  "productId": "ABC123"
+}
+```
+
+6. **Response from Remove Item from Cart:**
+``` 
+{
+  "cartId": "456",
+  "totalItems": 3,
+  "totalPrice": 50.00,
+  "message": "Item removed successfully."
+}
+```
+
+### User and Cart Relationship:
+
+A user can be related to a cart in several ways, and the appropriate approach depends on the specific requirements of your application. Here are a couple of common scenarios:
+
+1. **User Has One Active Cart:**
+
+    - Each user has a single active cart associated with their account. When a user logs in, the system retrieves their active cart or creates a new one.
+    - The relationship can be modeled in a user profile or authentication token.
+2. **User Has Multiple Carts:**
+
+    - Users can have multiple carts, each associated with a different session or purpose (e.g., "Wishlist," "Shopping Cart").
+    - Carts can be stored with a reference to the user ID.
+
+Here's a simplified representation:
+
+**User Model:**
+``` 
+{
+  "userId": "123",
+  "username": "user123",
+  "email": "user@example.com",
+  "carts": [
+    {
+      "cartId": "456",
+      "status": "active",
+      "items": [
+        {
+          "productId": "ABC123",
+          "quantity": 2
+        },
+        // ... other items
+      ]
+    },
+    // ... other carts
+  ]
+}
+```
+
+In this example, the user model contains an array of carts, each with its own unique ID, status (e.g., "active," "inactive"), and a list of items. The "active" cart is the one currently being used by the user. The user can switch between different carts based on their needs.

@@ -3,6 +3,7 @@ package com.example.shoppingcart.service.impl;
 import com.example.shoppingcart.converter.cart.CartItemConverter;
 import com.example.shoppingcart.dto.CartItemDto;
 import com.example.shoppingcart.exception.ItemNotFoundException;
+import com.example.shoppingcart.model.postgre.Cart;
 import com.example.shoppingcart.model.postgre.CartItem;
 import com.example.shoppingcart.repository.ItemRepository;
 import com.example.shoppingcart.service.CartItemService;
@@ -25,6 +26,11 @@ public class CartItemServiceImpl implements CartItemService {
 
 
     public CartItem addItemToCart(CartItem cartItem){
+        return itemRepository.save(cartItem);
+    }
+
+    @Override
+    public CartItem addItem(CartItem cartItem){
         return itemRepository.save(cartItem);
     }
 

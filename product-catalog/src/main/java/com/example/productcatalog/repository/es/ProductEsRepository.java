@@ -15,4 +15,6 @@ public interface ProductEsRepository extends ElasticsearchRepository<ProductEs, 
     List<ProductEs> findByDescriptionContaining(String description);
 
     List<ProductEs> findByManufacturerAndCategory(String manufacturer, String category);
+
+    List<ProductEs> findByCategory(String category);
 }

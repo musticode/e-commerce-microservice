@@ -2,16 +2,16 @@ package com.example.shoppingcart.service;
 
 import com.example.shoppingcart.dto.CartDto;
 import com.example.shoppingcart.dto.CartRequest;
+import com.example.shoppingcart.dto.CartResponse;
 import com.example.shoppingcart.model.postgre.Cart;
 
 import java.util.List;
 
 public interface CartService {
-    Cart findCartWithId(long cartId);
 
-    CartDto addItem(CartDto cartItem);
+    CartResponse addItemToCart(CartRequest cartRequest);
 
-    String deleteCartWithId(long cartId);
+    CartResponse viewCart(long cartId);
 
-    List<Cart> getAllCarts();
+    CartResponse updateCartItem(long cartId, CartRequest cartRequest);
 }

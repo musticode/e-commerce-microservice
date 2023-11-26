@@ -26,6 +26,7 @@ public class CartEsService {
     private final CartEsRepository cartEsRepository;
 
 
+
     public CartEs findCartInEs(String cartId){
 
         CartEs cartEs = cartEsRepository
@@ -39,34 +40,12 @@ public class CartEsService {
 
 
     public CartEs saveCart(CartEs cartEs){
-
-        CartEs newCart = CartEs.builder()
-                .name(cartEs.getName())
-                .itemCount(cartEs.getItemCount())
-                .isEmpty(cartEs.isEmpty())
-                .itemCount(cartEs.getItemCount())
-                .isEmpty(cartEs.isEmpty())
-                .note(cartEs.getNote())
-                .totalPrice(cartEs.getTotalPrice())
-                .requiresShipping(cartEs.isRequiresShipping())
-                .totalDiscount(cartEs.getTotalDiscount())
-                .itemList(cartEs.getItemList())
-                .build();
-
-        cartEsRepository.save(newCart);
-        log.info("Saved {}", cartEs);
-
-        return newCart;
-    }
-
-
-    private void saveToEs(CartEs cartEs) {
-        if (cartEs == null) {
-            throw new RuntimeException("null");
-        }
         cartEsRepository.save(cartEs);
-        log.info("saved to es {}", cartEs);
+        log.info("Saved {}", cartEs);
+        return cartEs;
     }
+
+
 
 
     private CartItemEs mapToEsEntity(CartItem cartItem) {

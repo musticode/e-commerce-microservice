@@ -15,13 +15,13 @@ public class CartItemConverter extends Converter<CartItemDto, CartItem> {
                 .id(cartItem.getId())
                 .name(cartItem.getName())
                 .price(cartItem.getPrice())
-                .finalPrice(cartItem.getFinalPrice())
-                .message(cartItem.getMessage())
-                .productId(cartItem.getProductId())
+//                .finalPrice(cartItem.getFinalPrice())
+//                .message(cartItem.getMessage())
+//                .productId(cartItem.getProductId())
                 .quantity(cartItem.getQuantity())
-                .sku(cartItem.getSku())
-                .title(cartItem.getTitle())
-                .vendor(cartItem.getVendor())
+//                .sku(cartItem.getSku())
+//                .title(cartItem.getTitle())
+//                .vendor(cartItem.getVendor())
                 .build();
     }
 
@@ -29,13 +29,13 @@ public class CartItemConverter extends Converter<CartItemDto, CartItem> {
         return CartItem.builder()
                 .name(cartItemDto.getName())
                 .price(cartItemDto.getPrice())
-                .finalPrice(cartItemDto.getFinalPrice())
-                .message(cartItemDto.getMessage())
-                .productId(cartItemDto.getProductId())
+//                .finalPrice(cartItemDto.getFinalPrice())
+//                .message(cartItemDto.getMessage())
+//                .productId(cartItemDto.getProductId())
                 .quantity(cartItemDto.getQuantity())
-                .sku(cartItemDto.getSku())
-                .title(cartItemDto.getTitle())
-                .vendor(cartItemDto.getVendor())
+//                .sku(cartItemDto.getSku())
+//                .title(cartItemDto.getTitle())
+//                .vendor(cartItemDto.getVendor())
                 .build();
     }
 

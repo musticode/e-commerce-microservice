@@ -35,7 +35,6 @@ public class CartController {
     @PostMapping("/add")
     public ResponseEntity<CartResponse> addOrCreateItemToUserCart(@RequestBody CartRequest cartRequest){
         return new ResponseEntity<>(cartService.addItemToCart(cartRequest), HttpStatus.CREATED);
-
     }
 
     @PostMapping("/update-cart/{cartId}")
@@ -43,6 +42,10 @@ public class CartController {
         return new ResponseEntity<>(cartService.updateCartItem(cartId, cartRequest), HttpStatus.OK);
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<CartResponse> getUserCart(@PathVariable long userId){
+        return new ResponseEntity<>(cartService.findUserCartWithUserId(userId), HttpStatus.OK);
+    }
 
 
 

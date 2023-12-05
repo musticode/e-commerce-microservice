@@ -7,13 +7,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "order_line_items")
-public class OrderLineItem {
+public class OrderLineItem implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -21,6 +23,7 @@ public class OrderLineItem {
     private double price;
     private int quantity;
     private long productId;
+    private double subtotal;
 
     @ManyToOne
     @JoinColumn(name = "order_id", referencedColumnName = "id")

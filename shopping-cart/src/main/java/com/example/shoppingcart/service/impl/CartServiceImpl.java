@@ -170,6 +170,12 @@ public class CartServiceImpl implements CartService {
         return modelMapper.map(foundCart, CartResponse.class);
     }
 
+    @Override
+    public CartResponse findUserCartWithUserId(long userId) {
+        Cart cart = cartRepository.findByUserId(userId);
+        return modelMapper.map(cart, CartResponse.class);
+    }
+
     private Cart findCartWithCartId(long cartId){
         return cartRepository.findById(cartId).orElseThrow(()-> new CartNotFoundException("No cart with id: " + cartId));
     }

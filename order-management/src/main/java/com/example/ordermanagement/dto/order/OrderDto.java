@@ -1,4 +1,4 @@
-package com.example.ordermanagement.dto;
+package com.example.ordermanagement.dto.order;
 
 import com.example.ordermanagement.model.Order;
 import com.example.ordermanagement.model.OrderLineItem;

@@ -1,6 +1,8 @@
 package com.example.ordermanagement.service;
 
-import com.example.ordermanagement.dto.OrderDto;
+import com.example.ordermanagement.dto.order.ConfirmOrderRequest;
+import com.example.ordermanagement.dto.order.OrderDto;
+import com.example.ordermanagement.dto.order.OrderResponse;
 import com.example.ordermanagement.model.Order;
 
 import java.util.List;
@@ -10,6 +12,10 @@ import java.util.List;
  * */
 
 public interface OrderService{
+
+    OrderResponse findOrderWithId(long orderId);
+
+
     Order findOrderById(long orderId);
 
     OrderDto saveOrder(OrderDto order);
@@ -19,5 +25,6 @@ public interface OrderService{
 
     List<Order> getUserOrderHistory(long userId);
     Order confirmOrder(Order order);
-    void cancelOrderById(long orderId);
+
+    OrderDto confirmCartOrder(ConfirmOrderRequest confirmOrderRequest);
 }

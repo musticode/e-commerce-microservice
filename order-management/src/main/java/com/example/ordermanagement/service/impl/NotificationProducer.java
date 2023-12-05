@@ -1,6 +1,8 @@
 package com.example.ordermanagement.service.impl;
 
 import com.example.ordermanagement.event.OrderEvent;
+import com.example.ordermanagement.event.notification.NotificationEvent;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -13,19 +15,20 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class OrderProducer {
+public class NotificationProducer {
 
-    private final NewTopic topic;
-    private final KafkaTemplate<String, OrderEvent> kafkaTemplate;
+    private final NewTopic notification;
+    private final KafkaTemplate<String, NotificationEvent> kafkaTemplate;
 
-    public void sendMessage(OrderEvent event){
+    public void sendMessage(@NonNull NotificationEvent event){
 
         // create message
-        Message<OrderEvent> message = MessageBuilder
+        Message<NotificationEvent> message = MessageBuilder
                 .withPayload(event)
-                .setHeader(KafkaHeaders.TOPIC, topic.name())
+                .setHeader(KafkaHeaders.TOPIC, notification.name())
                 .build();
 
         kafkaTemplate.send(message);
     }
+
 }

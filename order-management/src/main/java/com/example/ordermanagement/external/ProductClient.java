@@ -1,6 +1,6 @@
 package com.example.ordermanagement.external;
 
-import com.example.ordermanagement.dto.ProductResponse;
+import com.example.ordermanagement.dto.product.ProductResponse;
 import com.example.ordermanagement.model.external.Product;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;

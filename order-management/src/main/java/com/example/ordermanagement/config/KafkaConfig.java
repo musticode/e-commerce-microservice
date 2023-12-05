@@ -10,7 +10,10 @@ import org.springframework.kafka.config.TopicBuilder;
 public class KafkaConfig {
 
     @Value("${spring.kafka.topic.name}")
-    private String topicName; // order_topic
+    private String topicName;
+
+    @Value("${spring.kafka.topic.notification-topic}")
+    private String notificationTopic;
 
     @Bean
     public NewTopic topic(){
@@ -18,5 +21,13 @@ public class KafkaConfig {
                 .name(topicName)
                 .build();
     }
+
+    @Bean
+    public NewTopic notification(){
+        return TopicBuilder
+                .name(notificationTopic)
+                .build();
+    }
+
 
 }

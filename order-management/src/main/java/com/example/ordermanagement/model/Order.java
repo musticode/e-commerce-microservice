@@ -24,17 +24,14 @@ public class Order {
 
     @Column(nullable = true)
     private long cartId;
-    //cancel
     private Date cancelledAt;
     private String cancelReason;
-    /**
-     * The sum of all the prices of all the items in the order, duties, taxes and discounts included (must be positive).
-     * */
     private double totalPrice;
     private long userId;
     private long sellerId;
     private long buyerId;
     private String shippingAddress;
+    private String status;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     @JsonIgnore

@@ -14,4 +14,6 @@ public interface CartService {
     CartResponse viewCart(long cartId);
 
     CartResponse updateCartItem(long cartId, CartRequest cartRequest);
+
+    CartResponse findUserCartWithUserId(long userId);
 }

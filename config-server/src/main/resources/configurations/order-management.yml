@@ -22,6 +22,7 @@ spring:
   kafka:
     topic:
       name: order_topic
+      notification-topic: notification_topic
     consumer:
       bootstrap-servers: 'localhost:9092'
       group-id: order

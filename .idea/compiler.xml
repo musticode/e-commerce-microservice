@@ -14,6 +14,7 @@
         <module name="user-management" />
         <module name="productEs-catalog" />
         <module name="api-gateway" />
+        <module name="logistic-service" />
         <module name="order-management" />
         <module name="service-discovery" />
         <module name="notification-service" />
@@ -28,6 +29,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="api-gateway" options="-parameters" />
       <module name="config-server" options="-parameters" />
+      <module name="logistic-service" options="-parameters" />
       <module name="notification-service" options="-parameters" />
       <module name="order-management" options="-parameters" />
       <module name="order-service" options="-parameters" />

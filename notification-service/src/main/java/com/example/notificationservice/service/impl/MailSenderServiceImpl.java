@@ -10,5 +10,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MailSenderServiceImpl implements MailSenderService {
 
+    public void sendMail(String from, String to, String message){
+        log.info("Sending mail from {} to {} message : {}", from, to, message);
+    }
 
 }

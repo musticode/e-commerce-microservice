@@ -19,6 +19,9 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class TransportServiceImpl implements TransportService {
 
+    // https://github.com/VukRadmilovic/uber-like-backend/blob/main/transport_projekat_backend/src/main/java/rs/ac/uns/ftn/transport/service/EstimatesService.java
+
+
     private final TransportRepository transportRepository;
     private final InsuranceService insuranceService;
     private final ModelMapper modelMapper;
@@ -32,11 +35,11 @@ public class TransportServiceImpl implements TransportService {
         return mapToDto(transport);
     }
 
+    @Override
     public TransportDto addTransport(TransportRequest request){
 
-        // find insurance
-        final long insuranceId = 1L;
-        TransportInsurance transportInsurance = insuranceService.findInsurance(insuranceId);
+        // find insurance with given request
+        TransportInsurance transportInsurance = insuranceService.findInsurance(request.getInsuranceId());
 
 
         Transport transport = new Transport();

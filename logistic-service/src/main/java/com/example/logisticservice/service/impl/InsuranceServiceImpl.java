@@ -21,15 +21,17 @@ public class InsuranceServiceImpl implements InsuranceService {
 
     @Override
     public TransportInsurance findInsurance(long insuranceId) {
-        return transportInsuranceRepository.findById(insuranceId).orElseThrow(()-> new RuntimeException("No insurance with id"+ insuranceId));
+        return transportInsuranceRepository
+                .findById(insuranceId)
+                .orElseThrow(
+                        () -> new RuntimeException("No insurance with id" + insuranceId)
+                );
     }
 
 
-
-    private TransportInsuranceDto mapToDto(@NonNull TransportInsurance transportInsurance){
+    private TransportInsuranceDto mapToDto(@NonNull TransportInsurance transportInsurance) {
         return modelMapper.map(transportInsurance, TransportInsuranceDto.class);
     }
-
 
 
 

@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 public class TransportRequest {
     private String registrationNumber;
     private String vin;
+    private long insuranceId;
 
 }
